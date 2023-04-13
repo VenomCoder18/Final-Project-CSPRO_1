@@ -3,6 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 
 // Comment to practice pull request :)
+// Comment to practice new branch
 
 function App() {
   return (
