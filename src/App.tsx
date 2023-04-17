@@ -1,5 +1,6 @@
 import React from 'react';
 import logo from './logo.svg';
+import Pokemon from './Pokemon';
 import './App.css';
 
 // Comment to practice pull request :)
@@ -8,8 +9,8 @@ import './App.css';
 function App() {
   return (
     <div className="App">
-      <header> Welcome to Pokemon Pet Center! </header>
-      <p>How many we help you today?</p>
+      Hello World 
+      <Pokemon/>
     </div>
   );
 }
