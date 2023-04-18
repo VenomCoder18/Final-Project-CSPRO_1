@@ -3,7 +3,7 @@ interface Pokemon {
   name: string;
 }
 
-const SearchBar: React.FC = () => {
+function SearchBar() {
   const pokemons: Pokemon[] = [
     { name: "Ivy" },
     { name: "Pikachu" },
