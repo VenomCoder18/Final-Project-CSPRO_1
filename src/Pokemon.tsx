@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {fetchData, DataResponse} from "./DataManager"
 
 function Pokemon(){
-  const [pokemon, setPokemon] = useState('bulbasaur');
+  const [pokemon, setPokemon] = useState('Bulbasaur');
   const [picUrl, setPicUrl] = useState("");
   async function handleClick(event: any){
     setPokemon(event.target.value);

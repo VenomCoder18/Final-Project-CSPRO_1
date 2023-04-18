@@ -1,8 +1,7 @@
 import React from 'react';
-import logo from './logo.svg';
 import Pokemon from './Pokemon';
 import './App.css';
-import Search from './searchbar';
+import SearchBar from './searchbar';
 
 // Comment to practice pull request :)
 // Comment to practice new branch
@@ -13,7 +12,7 @@ function App() {
       Welcome to NU's Pokemon Adoption Center 
       <Pokemon/>
       <p>
-        <Search/>
+        <SearchBar/>
       </p>
     </div>
   );
