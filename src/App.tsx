@@ -1,8 +1,7 @@
 import React from 'react';
 import Pokemon from './Pokemon';
 import './App.css';
-import SearchBar from './SearchBar';
-
+import SearchBar from './searchbar';
 function App() {
   return (
     <div className="App">
