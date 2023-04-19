@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {fetchData, DataResponse} from "./DataManager"
+import {fetchData, DataResponse} from "./DataManager";
 
 function Pokemon(){
   const [pokemon, setPokemon] = useState('Bulbasaur');

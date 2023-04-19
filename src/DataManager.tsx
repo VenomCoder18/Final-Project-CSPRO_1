@@ -17,5 +17,5 @@ export async function fetchData(url: string): Promise<DataResponse> {
           data: null,
           status: "FAIL",
       }
-  }
+  } 
 }
