@@ -1,16 +1,14 @@
 import React from 'react';
-import logo from './logo.svg';
-import Pokemon from './Pokemon';
 import './App.css';
-
-// Comment to practice pull request :)
-// Comment to practice new branch
-
+import Caretaker from './Caretaker';
+import SearchBar from './SearchBar';
 function App() {
   return (
-    <div className="App">
-      Hello World 
-      <Pokemon/>
+    <div>
+      <SearchBar/>
+    <div>
+      <Caretaker/>
+    </div>
     </div>
   );
 }
