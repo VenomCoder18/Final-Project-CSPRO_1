@@ -11,7 +11,7 @@ function SearchBar() {
     { name: "MewTwo" },
     { name: "Bulbasaur" },
     { name: "Squirtle" },
-    { name: "Evee" }
+    { name: "Eevee" }
   ];
 
   const [searchTerm, setSearchTerm] = useState<string>("");
