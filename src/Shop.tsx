@@ -1,10 +1,22 @@
-import React, {useState} from "react";
+import React, {useState} from 'react';
 import Item, {ItemPair} from './item.ts';
+export default Shop;
 
 // Shop.tsx provides components of the Shop overlay, item counter, and shopping cart 
 type ShopProps = {
     supply: Item[],
     itemUrl: string[]
+}
+
+type EntryProps={
+    cart: ItemPair[],
+    itemUrl: string[],
+    addOne: (index: number)=>void,
+    subOne: (index: number)=>void,
+    itemClick:(newItem: Item, newCount: number)=>void,
+    supply: Item[],
+    count: number[],
+    index: number
 }
 
 type CountProps= {
@@ -14,21 +26,10 @@ type CountProps= {
     index: number
 }
 
-type CartProps={
-    itemClick:(newItem: Item, newCount: number)=>void,
-    item:Item,
-    count:number
-}
-
-type EntryProps={
-    cart: ItemPair[],
-    itemUrl: string[],
-    addOne: (index: number)=>void,
-    subOne: (index: number)=>void,
-    itemClick:(newItem: Item, newCount: number)=>void,
-    index: number
-    supply: Item[],
-    count: number[],
+type AddProps={
+    itemClick: (newItem: Item, newCount: number)=>void,
+    item: Item,
+    count: number
 }
 
 export function Shop(props: ShopProps) {
@@ -40,10 +41,11 @@ export function Shop(props: ShopProps) {
                                                     {item: props.supply[2], quantity: 0},
                                                     {item: props.supply[3], quantity: 0},
                                                     {item: props.supply[4], quantity: 0}]);
-
+    // count will track how many items a user wants to put in a cart.
+    // each element refers to a corresponding item possibility                                                
+    const [count, setCount] = useState([0,0,0,0,0]);
     // count state needs +1 and -1 button, as well as pass to cart
     // here is functionality we can reuse
-    const [count, setCount] = useState([0,0,0,0,0]);
     const addOne: (index: number)=> void = function(index: number) { 
         if (index === 0) {
             setCount([count[0]+1,count[1],count[2], count[3], count[4] ]);
@@ -70,10 +72,8 @@ export function Shop(props: ShopProps) {
             setCount([count[0],count[1],count[2], count[3], count[4]-1 ]);             
         }
     }
-
     // Passes items to cart and resets proper counter
     const itemClick: (newItem: Item, newCount: number)=> void = function(newItem: Item, newCount: number) {
-        // cart could probably be simpler with a HashMap, but I don't know .ts implementation...        
         switch (newItem.name) {
             case cart[0].item.name:
                 setCart([
@@ -113,6 +113,7 @@ export function Shop(props: ShopProps) {
                 ]);
                 setCount([count[0],count[1],count[2], count[3], 0 ]);             
                 break;
+            // default should never trigger
             default:
                 console.log("ERROR: ITEM OUT OF BOUNDS");
                 break;    
@@ -124,13 +125,14 @@ export function Shop(props: ShopProps) {
             <header style = {{fontSize: 40, textAlign: "center"}}>
                 Item Shop
             </header>
+            
             <p style={{margin: 15}}>
 
-                <ItemEntry cart={cart} itemUrl={props.itemUrl} addOne={addOne} subOne={subOne} itemClick={itemClick} index={0} supply={props.supply} count={count}/>
-                <ItemEntry cart={cart} itemUrl={props.itemUrl} addOne={addOne} subOne={subOne} itemClick={itemClick} index={1} supply={props.supply} count={count}/>
-                <ItemEntry cart={cart} itemUrl={props.itemUrl} addOne={addOne} subOne={subOne} itemClick={itemClick} index={2} supply={props.supply} count={count}/>
-                <ItemEntry cart={cart} itemUrl={props.itemUrl} addOne={addOne} subOne={subOne} itemClick={itemClick} index={3} supply={props.supply} count={count}/>
-                <ItemEntry cart={cart} itemUrl={props.itemUrl} addOne={addOne} subOne={subOne} itemClick={itemClick} index={4} supply={props.supply} count={count}/>
+                <ItemEntry cart={cart} itemUrl={props.itemUrl} addOne={addOne} subOne={subOne} itemClick={itemClick} supply={props.supply} count={count} index={0}/>
+                <ItemEntry cart={cart} itemUrl={props.itemUrl} addOne={addOne} subOne={subOne} itemClick={itemClick} supply={props.supply} count={count} index={1}/>
+                <ItemEntry cart={cart} itemUrl={props.itemUrl} addOne={addOne} subOne={subOne} itemClick={itemClick} supply={props.supply} count={count} index={2}/>
+                <ItemEntry cart={cart} itemUrl={props.itemUrl} addOne={addOne} subOne={subOne} itemClick={itemClick} supply={props.supply} count={count} index={3}/>
+                <ItemEntry cart={cart} itemUrl={props.itemUrl} addOne={addOne} subOne={subOne} itemClick={itemClick} supply={props.supply} count={count} index={4}/>
                 
                 <span style={{fontWeight: "bold", fontSize: 20, textDecorationLine: 'underline'}}>
                     Your Cart:
@@ -154,14 +156,14 @@ export function Shop(props: ShopProps) {
                                                 {item: cart[2].item, quantity: 0},
                                                 {item: cart[3].item, quantity: 0},
                                                 {item: cart[4].item, quantity: 0}])}> 
-                    Reset Cart 
+                    Empty Cart 
                 </button>
             </p>
         </div>
     );
 }
 
-export function ItemEntry(props: EntryProps) {
+function ItemEntry(props: EntryProps) {
     return (
         <div>
             {/* Every item needs a title, image, description, cost, and proper buttons */}
@@ -175,15 +177,14 @@ export function ItemEntry(props: EntryProps) {
 
             Cost: {props.cart[props.index].item.cost}
 
-            <Count addOne={props.addOne} subOne={props.subOne} count = {props.count[props.index]} index={props.index}/>
-            <ItemButton itemClick={props.itemClick} item={props.supply[props.index]} count={props.count[props.index]}/>
+            <ItemCount addOne={props.addOne} subOne={props.subOne} count = {props.count[props.index]} index={props.index}/>
+            <ItemAdd itemClick={props.itemClick} item={props.supply[props.index]} count={props.count[props.index]}/>
             <p/>
         </div>
     );
 }
 
-
-export function Count(props: CountProps) {
+function ItemCount(props: CountProps) {
     return (
         <div>
             <button onClick= {()=> {props.subOne(props.index)}}>
@@ -197,7 +198,7 @@ export function Count(props: CountProps) {
     );
 }
 
-export function ItemButton(props: CartProps) {
+function ItemAdd(props: AddProps) {
     // on click, adjust cart item count
     const handleClick=function() {
         props.itemClick(props.item, props.count);
@@ -210,5 +211,3 @@ export function ItemButton(props: CartProps) {
         </div>
     );
 }
-
-export default Shop;

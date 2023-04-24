@@ -1,3 +1,5 @@
+export default Item;
+
 export type Item = {
 
     "name": string;
@@ -10,4 +12,3 @@ export type ItemPair = {
     item: Item;
     quantity: number;    
 }
-export default Item;
