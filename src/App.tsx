@@ -9,7 +9,7 @@ type AppProps = {
   itemUrl: string[]
 }
 
-function App() {
+function App(props: AppProps) {
   return (
     <div className="App">
       <header style = {{fontSize:50, textAlign: "center"}}>Welcome to NU's Pokemon Adoption Center </header>

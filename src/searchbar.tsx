@@ -25,6 +25,7 @@ function SearchBar() {
     { name: "Eevee" },
   ];
 
+  const [listTitle, setListTitle] = useState("Available Pokemon!");
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [searchResults, setSearchResults] = useState<Pokemon[]>(pokemons);
   const [selectedPokemon, setSelectedPokemon] = useState<Pokemon>();
@@ -56,7 +57,9 @@ function SearchBar() {
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     const term = event.target.value;
     setSearchTerm(term);
+    setListTitle("");
     if(term === "") {
+      setListTitle("Available Pokemon!");
       setSelectedPokemon(undefined);
       setPokemonStats(undefined);
     }
@@ -75,7 +78,7 @@ function SearchBar() {
         onChange={handleChange}
       />
       <ul>
-        Available Pokemon!
+        {listTitle}
         {searchResults.map((pokemon) => (
         <li key={pokemon.name} onClick={() => handleSelect(pokemon)}>{pokemon.name}</li>
         ))}
