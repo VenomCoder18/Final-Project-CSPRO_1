@@ -1,30 +1,65 @@
 import React, { useState } from "react";
+import {fetchData, DataResponse} from "./DataManager";;
+
 interface Pokemon {
   name: string;
 }
 
+interface PokemonStats {
+  hp: number;
+  attack: number;
+  defense: number;
+  specialAttack: number;
+  specialDefense: number;
+  speed: number;
+}
+
 function SearchBar() {
   const pokemons: Pokemon[] = [
-    { name: "Ivy" },
+    { name: "Snivy" },
     { name: "Pikachu" },
     { name: "Charmander" },
     { name: "MewTwo" },
     { name: "Bulbasaur" },
     { name: "Squirtle" },
-    { name: "Eevee" }
+    { name: "Eevee" },
   ];
 
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [searchResults, setSearchResults] = useState<Pokemon[]>(pokemons);
+  const [selectedPokemon, setSelectedPokemon] = useState<Pokemon>();
+  const [pokemonStats, setPokemonStats] = useState<PokemonStats>();
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  async function handleSelect(pokemon: Pokemon) {
+    setSelectedPokemon(pokemon);
+    const response = await fetchData(
+      `https://pokeapi.co/api/v2/pokemon/` + pokemon.name.toLowerCase()
+      );
+    if (response.status === "SUCCESS") {
+      const data = response.data;
+      setPokemonStats({
+        hp: data.stats[0].base_stat,
+        attack: data.stats[1].base_stat,
+        defense: data.stats[2].base_stat,
+        specialAttack: data.stats[3].base_stat,
+        specialDefense: data.stats[4].base_stat,
+        speed: data.stats[5].base_stat,
+      });
+    }
+  }
+
+  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     const term = event.target.value;
     setSearchTerm(term);
-    const results = pokemons.filter(pokemon =>
+    if(term === "") {
+      setSelectedPokemon(undefined);
+      setPokemonStats(undefined);
+    }
+    const results = pokemons.filter((pokemon) =>
       pokemon.name.toLowerCase().includes(term.toLowerCase())
     );
     setSearchResults(results);
-  };
+  }
 
   return (
     <div>
@@ -35,12 +70,27 @@ function SearchBar() {
         onChange={handleChange}
       />
       <ul>
-        {searchResults.map(pokemon => (
-          <li key={pokemon.name}>{pokemon.name}</li>
+        Available Pokemon!
+        {searchResults.map((pokemon) => (
+          <li key={pokemon.name} onClick={() => handleSelect(pokemon)}>{pokemon.name}</li>
         ))}
       </ul>
+      {selectedPokemon && (
+        <div>
+          <h2>{selectedPokemon.name}</h2>
+          {pokemonStats && (
+            <ul>
+              <li>HP: {pokemonStats.hp}</li>
+              <li>Attack: {pokemonStats.attack}</li>
+              <li>Defense: {pokemonStats.defense}</li>
+              <li>Special Attack: {pokemonStats.specialAttack}</li>
+              <li>Special Defense: {pokemonStats.specialDefense}</li>
+              <li>Speed: {pokemonStats.speed}</li>
+            </ul>
+          )}
+        </div>
+      )}
     </div>
   );
-};
-
+}
 export default SearchBar;

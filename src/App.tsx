@@ -1,18 +1,18 @@
 import './App.css';
-import SearchBar from './SearchBar';
+import SearchBar from './searchbar';
 import Caretaker from './Caretaker';
 import Shop from './Shop';
-import Item from './item.ts'
+import Item from './item';
 
 type AppProps = {
   supply: Item[],
   itemUrl: string[]
 }
 
-function App(props: AppProps) {
+function App() {
   return (
     <div className="App">
-      <header style={{fontSize:50, textAlign: "center"}}>Welcome to NU's Pokemon Adoption Center </header>
+      <header style = {{fontSize:50, textAlign: "center"}}>Welcome to NU's Pokemon Adoption Center </header>
       <p>
         <SearchBar/>
       </p>
@@ -23,4 +23,5 @@ function App(props: AppProps) {
     </div>
   );
 }
+
 export default App;
