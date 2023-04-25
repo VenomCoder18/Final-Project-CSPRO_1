@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import {fetchData, DataResponse} from "./DataManager";;
 
-interface Pokemon {
+type Pokemon = {
   name: string;
 }
 
-interface PokemonStats {
+type PokemonStats = {
   hp: number;
   attack: number;
   defense: number;
@@ -29,6 +29,7 @@ function SearchBar() {
   const [searchResults, setSearchResults] = useState<Pokemon[]>(pokemons);
   const [selectedPokemon, setSelectedPokemon] = useState<Pokemon>();
   const [pokemonStats, setPokemonStats] = useState<PokemonStats>();
+  const [picUrl, setPicUrl] = useState();
 
   async function handleSelect(pokemon: Pokemon) {
     setSelectedPokemon(pokemon);
@@ -45,6 +46,10 @@ function SearchBar() {
         specialDefense: data.stats[4].base_stat,
         speed: data.stats[5].base_stat,
       });
+    }
+    if (response.status === "SUCCESS") {
+      const value = response.data;
+      setPicUrl(value.sprites.front_shiny)
     }
   }
 
@@ -72,12 +77,13 @@ function SearchBar() {
       <ul>
         Available Pokemon!
         {searchResults.map((pokemon) => (
-          <li key={pokemon.name} onClick={() => handleSelect(pokemon)}>{pokemon.name}</li>
+        <li key={pokemon.name} onClick={() => handleSelect(pokemon)}>{pokemon.name}</li>
         ))}
       </ul>
       {selectedPokemon && (
         <div>
           <h2>{selectedPokemon.name}</h2>
+          <img src={picUrl}/>
           {pokemonStats && (
             <ul>
               <li>HP: {pokemonStats.hp}</li>
