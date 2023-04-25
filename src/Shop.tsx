@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import {useState} from 'react';
 import Item, {ItemPair} from './item.ts';
 export default Shop;
 
@@ -8,33 +8,33 @@ type ShopProps = {
     itemUrl: string[]
 }
 
-type EntryProps={
-    cart: ItemPair[],
-    itemUrl: string[],
+type EntryProps = {
+    item: Item,
+    itemUrl: string,
     addOne: (index: number)=>void,
     subOne: (index: number)=>void,
     itemClick:(newItem: Item, newCount: number)=>void,
-    supply: Item[],
-    count: number[],
+    count: number,
     index: number
 }
 
-type CountProps= {
+type CountProps = {
     addOne: (index: number)=>void,
     subOne: (index: number)=>void,
     count: number,
     index: number
 }
 
-type AddProps={
-    itemClick: (newItem: Item, newCount: number)=>void,
+type AddProps = {
     item: Item,
+    itemClick: (newItem: Item, newCount: number)=>void,
     count: number
 }
 
 export function Shop(props: ShopProps) {
     
-    // Manually set supply defined in App.tsx
+    // Manually set supply defined in Index
+    // By making cart ItemPair[], we can track item as well as quantity in the same state
     const [cart, setCart] = useState<ItemPair[]>([
                                                     {item: props.supply[0], quantity: 0},
                                                     {item: props.supply[1], quantity: 0},
@@ -60,16 +60,19 @@ export function Shop(props: ShopProps) {
         }
     }
     const subOne: (index: number)=> void = function(index: number) { 
-        if (index === 0) {
-            setCount([count[0]-1,count[1],count[2], count[3], count[4] ]);
-        } else if (index === 1) {
-            setCount([count[0],count[1]-1,count[2], count[3], count[4] ]);             
-        } else if (index === 2) {
-            setCount([count[0],count[1],count[2]-1, count[3], count[4] ]);             
-        } else if (index === 3) {
-            setCount([count[0],count[1],count[2], count[3]-1, count[4] ]);             
-        } else {
-            setCount([count[0],count[1],count[2], count[3], count[4]-1 ]);             
+        // No negative counts
+        if (count[index] > 0) {
+            if (index === 0) {
+                setCount([count[0]-1,count[1],count[2], count[3], count[4] ]);
+            } else if (index === 1) {
+                setCount([count[0],count[1]-1,count[2], count[3], count[4] ]);             
+            } else if (index === 2) {
+                setCount([count[0],count[1],count[2]-1, count[3], count[4] ]);             
+            } else if (index === 3) {
+                setCount([count[0],count[1],count[2], count[3]-1, count[4] ]);             
+            } else {
+                setCount([count[0],count[1],count[2], count[3], count[4]-1 ]);             
+            }
         }
     }
     // Passes items to cart and resets proper counter
@@ -122,17 +125,17 @@ export function Shop(props: ShopProps) {
 
     return (
         <div>
-            <header style = {{fontSize: 40, textAlign: "center"}}>
+            <header style={{fontSize: 40, textAlign: "center"}}>
                 Item Shop
             </header>
             
             <p style={{margin: 15}}>
 
-                <ItemEntry cart={cart} itemUrl={props.itemUrl} addOne={addOne} subOne={subOne} itemClick={itemClick} supply={props.supply} count={count} index={0}/>
-                <ItemEntry cart={cart} itemUrl={props.itemUrl} addOne={addOne} subOne={subOne} itemClick={itemClick} supply={props.supply} count={count} index={1}/>
-                <ItemEntry cart={cart} itemUrl={props.itemUrl} addOne={addOne} subOne={subOne} itemClick={itemClick} supply={props.supply} count={count} index={2}/>
-                <ItemEntry cart={cart} itemUrl={props.itemUrl} addOne={addOne} subOne={subOne} itemClick={itemClick} supply={props.supply} count={count} index={3}/>
-                <ItemEntry cart={cart} itemUrl={props.itemUrl} addOne={addOne} subOne={subOne} itemClick={itemClick} supply={props.supply} count={count} index={4}/>
+                <ItemEntry item={props.supply[0]} itemUrl={props.itemUrl[0]} addOne={addOne} subOne={subOne} itemClick={itemClick} count={count[0]} index={0}/>
+                <ItemEntry item={props.supply[1]} itemUrl={props.itemUrl[1]} addOne={addOne} subOne={subOne} itemClick={itemClick} count={count[1]} index={1}/>
+                <ItemEntry item={props.supply[2]} itemUrl={props.itemUrl[2]} addOne={addOne} subOne={subOne} itemClick={itemClick} count={count[2]} index={2}/>
+                <ItemEntry item={props.supply[3]} itemUrl={props.itemUrl[3]} addOne={addOne} subOne={subOne} itemClick={itemClick} count={count[3]} index={3}/>
+                <ItemEntry item={props.supply[4]} itemUrl={props.itemUrl[4]} addOne={addOne} subOne={subOne} itemClick={itemClick} count={count[4]} index={4}/>
                 
                 <span style={{fontWeight: "bold", fontSize: 20, textDecorationLine: 'underline'}}>
                     Your Cart:
@@ -168,17 +171,17 @@ function ItemEntry(props: EntryProps) {
         <div>
             {/* Every item needs a title, image, description, cost, and proper buttons */}
             <span style={{fontWeight: "bold", fontSize: 24, textDecorationLine: 'underline'}}> 
-                {props.cart[props.index].item.name} 
+                {props.item.name} 
             </span> <div/>
 
-            <img src={props.itemUrl[props.index]}/><div/>
+            <img src={props.itemUrl}/><div/>
 
-            {props.cart[props.index].item.description} <div/>
+            {props.item.description} <div/>
 
-            Cost: {props.cart[props.index].item.cost}
+            Cost: {props.item.cost}
 
-            <ItemCount addOne={props.addOne} subOne={props.subOne} count = {props.count[props.index]} index={props.index}/>
-            <ItemAdd itemClick={props.itemClick} item={props.supply[props.index]} count={props.count[props.index]}/>
+            <ItemCount addOne={props.addOne} subOne={props.subOne} count={props.count} index={props.index}/>
+            <ItemAdd item={props.item} itemClick={props.itemClick} count={props.count}/>
             <p/>
         </div>
     );

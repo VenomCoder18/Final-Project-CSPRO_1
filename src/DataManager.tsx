@@ -1,4 +1,3 @@
-
 export type DataResponse = {
   data: any;
   status: "SUCCESS" | "FAIL";

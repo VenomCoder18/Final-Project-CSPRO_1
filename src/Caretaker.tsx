@@ -1,12 +1,11 @@
-import React from 'react';
 export default Caretaker
 
 function Caretaker() {
     return (
         <div> 
-            <header style = {{fontSize: 40, textAlign: "center"}}> Meet The Caretakers!</header>
+            <header style={{fontSize: 40, textAlign: "center"}}> Meet The Caretakers!</header>
 
-            <p style = {{textAlign: "left", margin: 15}}> 
+            <p style={{textAlign: "left", margin: 15}}> 
                 <span style={{fontWeight: "bold", fontSize: 24, textDecorationLine: 'underline'}}>
                         Riley Foster
                 </span>
@@ -23,7 +22,7 @@ function Caretaker() {
                 </div>
             </p>
 
-            <p style = {{textAlign: "left", margin: 15}}> 
+            <p style={{textAlign: "left", margin: 15}}> 
                 <span style={{fontWeight: "bold", fontSize: 24, textDecorationLine: 'underline'}}>
                         Daniel Johnston
                 </span>
