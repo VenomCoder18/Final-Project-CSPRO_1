@@ -1,34 +1,19 @@
 import React from 'react';
 import './App.css';
-<<<<<<< HEAD
-import SearchBar from './SearchBar';
-import Caretaker from './Caretaker';
-function App() {
-  return (
-    <div className="App">
-      Welcome to NU's Pokemon Adoption Center 
-      <p>
-        <SearchBar/>
-      </p>
-      <p>
-        <Caretaker/>
-=======
 import SearchBar from './searchbar';
 import Caretaker from './Caretaker';
 import Shop from './Shop';
-import Item from './item.ts'
-export default App;
-
+import Item from './item';
 function App() {
   return (
     <div className="App">
+      <header style = {{fontSize:50, textAlign: "center"}}>Welcome to NU's Pokemon Adoption Center </header>
       <p>
         <SearchBar/>
       </p>
         <Caretaker/>
       <p>
         <Shop supply={supply} itemUrl={itemUrl}/>
->>>>>>> 65c23318a991ce8a445f0a7936e1221677e120e8
       </p>
     </div>
   );
@@ -51,3 +36,5 @@ const itemUrl: string[] = [
   "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/paralyze-heal.png",
   "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/revive.png"
 ]
+
+export default App;
