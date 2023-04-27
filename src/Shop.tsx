@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import Item, {ItemPair} from './item.ts';
+import Item, {ItemPair} from './item';
 export default Shop;
 
 // Shop.tsx provides components of the Shop overlay, item counter, and shopping cart 

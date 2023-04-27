@@ -6,7 +6,7 @@ function Pokemon(){
   const [picUrl, setPicUrl] = useState("");
   async function handleClick(event: any){
     setPokemon(event.target.value);
-    const response = await fetchData("https://pokeapi.co/api/v2/pokemon/" + pokemon)
+    const response = await fetchData("https://pokeapi.co/api/v2/pokemon/" + pokemon.toLowerCase)
     if(response.status === "SUCCESS") {
       const data = response.data;
       setPicUrl(data.sprites.front_shiny);

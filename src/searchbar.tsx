@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import {fetchData, DataResponse} from "./DataManager";;
+import {fetchData, DataResponse} from "./DataManager";
 
 type Pokemon = {
   name: string;
@@ -31,13 +31,14 @@ function SearchBar() {
   const [selectedPokemon, setSelectedPokemon] = useState<Pokemon>();
   const [pokemonStats, setPokemonStats] = useState<PokemonStats>();
   const [picUrl, setPicUrl] = useState();
+  const [favoritePokemon, setfavoritePokemon] = useState<Pokemon[]>([]);
 
-  async function handleSelect(pokemon: Pokemon) {
+  async function handleSelect(pokemon: Pokemon, fromFavoritesList: boolean = false) {
     setSelectedPokemon(pokemon);
     const response = await fetchData(
       `https://pokeapi.co/api/v2/pokemon/` + pokemon.name.toLowerCase()
       );
-    if (response.status === "SUCCESS") {
+    if (response.status === "SUCCESS" || fromFavoritesList) {
       const data = response.data;
       setPokemonStats({
         hp: data.stats[0].base_stat,
@@ -51,6 +52,9 @@ function SearchBar() {
     if (response.status === "SUCCESS") {
       const value = response.data;
       setPicUrl(value.sprites.front_shiny)
+    } else {
+      setPicUrl(undefined)
+      setPokemonStats(undefined)
     }
   }
 
@@ -68,7 +72,20 @@ function SearchBar() {
     );
     setSearchResults(results);
   }
-
+  function handleFavorite(pokemon: Pokemon){
+    if (!favoritePokemon.some((fav) => fav.name === pokemon.name)) {
+      setfavoritePokemon([...favoritePokemon, pokemon]);
+    }
+  }
+  function handleRemoveFavorite(pokemon: Pokemon) {
+    const filteredFavorites = favoritePokemon.filter((fav) => fav.name !== pokemon.name);
+    setfavoritePokemon(filteredFavorites);
+    if (selectedPokemon?.name === pokemon.name){
+      setSelectedPokemon(undefined);
+      setPokemonStats(undefined);
+      setPicUrl(undefined);
+    }
+  }
   return (
     <div>
       <input
@@ -86,6 +103,12 @@ function SearchBar() {
       {selectedPokemon && (
         <div>
           <h2>{selectedPokemon.name}</h2>
+          <button onClick={() => handleFavorite(selectedPokemon)}>
+            Add to Favorites
+          </button>
+          <button onClick={() => handleRemoveFavorite(selectedPokemon)}>
+            Remove Favorite
+          </button>
           <img src={picUrl}/>
           {pokemonStats && (
             <ul>
@@ -98,8 +121,24 @@ function SearchBar() {
             </ul>
           )}
         </div>
+      )}  
+    <p>
+      <select value="" 
+        onChange={(event: any) => { 
+        const selectedPokemonName = event.target.value;
+        const selectedPokemon = favoritePokemon.find((pokemon) => pokemon.name === selectedPokemonName);
+        handleSelect(selectedPokemon, true)
+        }}>
+          <option value="" disabled>Select a Favorite Pokemon</option>
+            {favoritePokemon.map((pokemon) => (
+            <option 
+            key={pokemon.name} value={pokemon.name}
+            onClick={() => handleSelect(pokemon)}>{pokemon.name}
+          </option>)
       )}
-    </div>
+      </select>
+    </p>
+  </div>
   );
 }
 export default SearchBar;
