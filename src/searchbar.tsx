@@ -23,9 +23,48 @@ function SearchBar() {
     { name: "Bulbasaur" },
     { name: "Squirtle" },
     { name: "Eevee" },
+    { name: "Snorlax"},
+    { name: "Darkrai"},
+    { name: "Miltank"},
+    { name: "Wailord"},
+    { name: "Latios"},
+    { name: "Lapras"},
+    { name: "Floatzel"},
+    { name: "Pachirisu"},
+    { name: "Rattata"},
+    { name: "Rowlet"},
+    { name: "Litten"},
+    { name: "Charizard"},
+    { name: "Blastoise"},
+    { name: "Lugia"},
+    { name: "Machamp"},
+    { name: "Machop"},
+    { name: "Machoke"},
+    { name: "Onix"},
+    { name: "Lucario"},
+    { name: "Jolteon"},
+    { name: "Vaporeon"},
+    { name: "Tyranitar"},
+    { name: "Slowpoke"},
+    { name: "Umbreon"},
+    { name: "Flareon"},
+    { name: "Tauros"},
+    { name: "Giratina"},
+    { name: "Zapdos"},
+    { name: "Serperior"},
+    { name: "Sharpedo"},
+    { name: "Ninetales"},
+    { name: "Arceus"},
+    { name: "Alakazam"},
+    { name: "Dragonite"},
+    { name: "Arcanine"},
+    { name: "Gyarados"},
+    { name: "Jigglypuff"},
+    { name: "Garchomp"}, 
+    { name: "Greninja"},
+    { name: "Rayquaza"},
   ];
 
-  const [listTitle, setListTitle] = useState("Available Pokemon!");
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [searchResults, setSearchResults] = useState<Pokemon[]>(pokemons);
   const [selectedPokemon, setSelectedPokemon] = useState<Pokemon>();
@@ -61,9 +100,7 @@ function SearchBar() {
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     const term = event.target.value;
     setSearchTerm(term);
-    setListTitle("");
     if(term === "") {
-      setListTitle("Available Pokemon!");
       setSelectedPokemon(undefined);
       setPokemonStats(undefined);
     }
@@ -88,15 +125,17 @@ function SearchBar() {
   }
   return (
     <div>
+      <header style={{fontSize:24}}> Search Your Dream Pokemon!</header>
+      <p>
       <input
         type="text"
         placeholder="Search Pokemon"
         value={searchTerm}
         onChange={handleChange}
       />
+      </p>
       <ul>
-        {listTitle}
-        {searchResults.map((pokemon) => (
+        {searchTerm && searchResults.map((pokemon) => (
         <li key={pokemon.name} onClick={() => handleSelect(pokemon)}>{pokemon.name}</li>
         ))}
       </ul>
@@ -131,7 +170,7 @@ function SearchBar() {
           handleSelect(selectedPokemon, true);
         }
         }}>
-          <option value="" disabled>Select a Favorite Pokemon</option>
+          <option value="" disabled>Favorited Pokemon</option>
             {favoritePokemon.map((pokemon) => (
             <option 
             key={pokemon.name} value={pokemon.name}
