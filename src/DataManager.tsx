@@ -18,3 +18,4 @@ export async function fetchData(url: string): Promise<DataResponse> {
       }
   } 
 }
+export default fetchData;

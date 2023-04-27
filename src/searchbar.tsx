@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import {fetchData, DataResponse} from "./DataManager";
+import fetchData from "./DataManager";
 
 type Pokemon = {
   name: string;
@@ -125,11 +125,11 @@ function SearchBar() {
   }
   return (
     <div>
-      <header style={{fontSize:24}}> Search Your Dream Pokemon!</header>
+      <header style={{fontSize:24}}> Search Your Dream Pokémon!</header>
       <p>
       <input
         type="text"
-        placeholder="Search Pokemon"
+        placeholder="Search Pokémon"
         value={searchTerm}
         onChange={handleChange}
       />
@@ -148,6 +148,7 @@ function SearchBar() {
           <button onClick={() => handleRemoveFavorite(selectedPokemon)}>
             Remove Favorite
           </button>
+          <div/>
           <img src={picUrl}/>
           {pokemonStats && (
             <ul>
@@ -170,7 +171,7 @@ function SearchBar() {
           handleSelect(selectedPokemon, true);
         }
         }}>
-          <option value="" disabled>Favorited Pokemon</option>
+          <option value="" disabled>Favorited Pokémon</option>
             {favoritePokemon.map((pokemon) => (
             <option 
             key={pokemon.name} value={pokemon.name}

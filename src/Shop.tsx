@@ -5,12 +5,10 @@ export default Shop;
 // Shop.tsx provides components of the Shop overlay, item counter, and shopping cart 
 type ShopProps = {
     supply: Item[],
-    itemUrl: string[]
 }
 
 type EntryProps = {
     item: Item,
-    itemUrl: string,
     addOne: (index: number)=>void,
     subOne: (index: number)=>void,
     itemClick:(newItem: Item, newCount: number)=>void,
@@ -131,11 +129,11 @@ export function Shop(props: ShopProps) {
             
             <p style={{margin: 15}}>
 
-                <ItemEntry item={props.supply[0]} itemUrl={props.itemUrl[0]} addOne={addOne} subOne={subOne} itemClick={itemClick} count={count[0]} index={0}/>
-                <ItemEntry item={props.supply[1]} itemUrl={props.itemUrl[1]} addOne={addOne} subOne={subOne} itemClick={itemClick} count={count[1]} index={1}/>
-                <ItemEntry item={props.supply[2]} itemUrl={props.itemUrl[2]} addOne={addOne} subOne={subOne} itemClick={itemClick} count={count[2]} index={2}/>
-                <ItemEntry item={props.supply[3]} itemUrl={props.itemUrl[3]} addOne={addOne} subOne={subOne} itemClick={itemClick} count={count[3]} index={3}/>
-                <ItemEntry item={props.supply[4]} itemUrl={props.itemUrl[4]} addOne={addOne} subOne={subOne} itemClick={itemClick} count={count[4]} index={4}/>
+                <ItemEntry item={props.supply[0]} addOne={addOne} subOne={subOne} itemClick={itemClick} count={count[0]} index={0}/>
+                <ItemEntry item={props.supply[1]} addOne={addOne} subOne={subOne} itemClick={itemClick} count={count[1]} index={1}/>
+                <ItemEntry item={props.supply[2]} addOne={addOne} subOne={subOne} itemClick={itemClick} count={count[2]} index={2}/>
+                <ItemEntry item={props.supply[3]} addOne={addOne} subOne={subOne} itemClick={itemClick} count={count[3]} index={3}/>
+                <ItemEntry item={props.supply[4]} addOne={addOne} subOne={subOne} itemClick={itemClick} count={count[4]} index={4}/>
                 
                 <span style={{fontWeight: "bold", fontSize: 20, textDecorationLine: 'underline'}}>
                     Your Cart:
@@ -174,7 +172,7 @@ function ItemEntry(props: EntryProps) {
                 {props.item.name} 
             </span> <div/>
 
-            <img src={props.itemUrl}/><div/>
+            <img src={props.item.url}/><div/>
 
             {props.item.description} <div/>
 
