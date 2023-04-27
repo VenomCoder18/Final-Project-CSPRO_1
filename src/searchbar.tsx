@@ -127,7 +127,9 @@ function SearchBar() {
         onChange={(event: any) => { 
         const selectedPokemonName = event.target.value;
         const selectedPokemon = favoritePokemon.find((pokemon) => pokemon.name === selectedPokemonName);
-        handleSelect(selectedPokemon, true)
+        if (selectedPokemon) {
+          handleSelect(selectedPokemon, true);
+        }
         }}>
           <option value="" disabled>Select a Favorite Pokemon</option>
             {favoritePokemon.map((pokemon) => (
